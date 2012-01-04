@@ -1,5 +1,4 @@
 require 'test_helper'
-# require 'active_record'
 
 class ValidatorTest < ActiveSupport::TestCase
   
