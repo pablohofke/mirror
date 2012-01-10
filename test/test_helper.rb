@@ -1,4 +1,5 @@
 # Configure Rails Environment
+# Configure Rails Environment
 ENV["RAILS_ENV"] = "test"
 
 # require 'rubygems'
