@@ -6,10 +6,11 @@ module Mirror
           result, message=[],[]
           av=Mirror::Validator.new self.class.name.gsub(/Test/, "").constantize
           kinds=get_options(:kinds,*args)
-          options=get_options(:options,*args)
-          # debugger
+          # Rails.logger.debug kinds
+          attribute_options=get_options(:attribute_options,*args)
           result << av.has_kind?(attribute,kinds)
-          result << av.has_options?(attribute,options)
+          result << av.has_options?(attribute,:options => attribute_options)
+          # debugger if result.include?(false)
           message << av.message
           assert_block message.first do
             !result.include?(false)
@@ -22,10 +23,18 @@ module Mirror
         case type
         when :kinds
           result=[]
-          args.each{|a| result << a unless validations_options.include?(a)}
-        when :options
+          args.each do |a| 
+            a=a.keys.first if a.is_a?(Hash)
+            Rails.logger.debug a
+            result << a unless validations_options.include?(a)
+          end
+        when :attribute_options
+          
           result={}
-          args.each{|a| if a.is_a?(Hash) then result=result.merge(a) end}
+          args.each do |a| 
+            # debugger
+            if a.is_a?(Hash) && validations_options.include?(a.keys.first) then result=result.merge(a) end
+            end
         end
         result            
       end
