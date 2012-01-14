@@ -3,11 +3,6 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   
-  # test "validations" do
-  #     
-  #     assert_validation_on(:password, :presence, :length => {:within => 6..30})
-  #   end
-  
   # assert_validation_on
   test "assert_validation_on deve verificar a existencia dos kinds" do
     assert_validation_on(:email, :presence, :uniqueness, :email)
@@ -22,6 +17,12 @@ class UserTest < ActiveSupport::TestCase
       assert_validation_on(:email_confirmation, :presence, :confirmation, :on => :create, :allow_nil => true)
     end
   end
-  
+
+  test "assert_validation_on deve verificar a existência de options para validators kinds" do
+    assert_validation_on(:password, :presence, :length => {:within => 6..30})
+    assert_fail_validation "password does not have on option for presence" do
+      assert_validation_on(:password, :presence => {:on => :create}, :length => {:within => 6..30})
+    end
+  end
   
 end
