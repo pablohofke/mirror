@@ -59,7 +59,6 @@ module Mirror
       elsif kind && !options_to_check && current_options.empty?
         false & @message="#{attribute.to_s} does not have options for #{kind.to_s}"
       elsif kind && options_to_check && !diff_options.empty?
-        # debugger if current_options.nil?
         false & @message="#{attribute.to_s} does not have #{sentence((options_to_check.keys - current_options.keys))} #{inflect("option",diff_options.size)} for #{kind.to_s}"
       elsif !kind && options_to_check && !diff_options.empty?
         false & @message="#{attribute.to_s} does not have #{sentence((options_to_check.keys - current_options.keys))} #{inflect("option",diff_options.size)}"
