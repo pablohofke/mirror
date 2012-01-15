@@ -17,7 +17,7 @@ module Mirror
             message << av.message
           end
           message << av.message
-          assert_block message.first do
+          assert_block (get_options(:message,*args) || message.first) do
             !result.include?(false)
           end
         end
@@ -51,6 +51,8 @@ module Mirror
               end
             end
           end
+        when :message
+          result=args.last if args.last.is_a?(String)
         end
         result            
       end
