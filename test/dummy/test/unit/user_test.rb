@@ -17,21 +17,6 @@ class UserTest < ActiveSupport::TestCase
     end
   end
   
-  # assert_belongs_to
-  test "assert_belongs_to" do
-    assert_belongs_to :rules
-    assert_fail_assertion "User has no belongs_to association with teams" do
-      assert_belongs_to :teams
-    end
-  end
-  
-  test "assert_belongs_to deve apresentar a mensagem customizada" do
-    assert_fail_assertion "no belongs_to for teams" do
-      assert_belongs_to :teams, "no has_many for teams"
-    end
-  end
-  
-  
   # assert_validation_on
   test "assert_validation_on deve verificar a existencia dos kinds" do
     assert_validation_on(:email, :presence, :uniqueness, :email)
