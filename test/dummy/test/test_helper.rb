@@ -10,7 +10,7 @@ class ActiveSupport::TestCase
   # assert_fail_validaton "assertion error message" do
   #   assert_validation_on(...)
   # end
-  def assert_fail_validation(expected_message,&block)
+  def assert_fail_assertion(expected_message,&block)
     begin
       block.call
       fail 'should not get to here'
