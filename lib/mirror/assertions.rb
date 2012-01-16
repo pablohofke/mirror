@@ -4,10 +4,10 @@ module Mirror
       included do
         def assert_validation_on(attribute,*args)
           result, message=[],[]
-          av=Mirror::Validator.new self.class.name.gsub(/Test/, "").constantize
-          kinds=get_options(:kinds,*args)
-          attribute_options=get_options(:attribute_options,*args)
-          kind_options=get_options(:kind_options,*args)
+          av=Mirror::Validator.new get_model
+          kinds=get_validation_on_options(:kinds,*args)
+          attribute_options=get_validation_on_options(:attribute_options,*args)
+          kind_options=get_validation_on_options(:kind_options,*args)
           result << av.has_kind?(attribute,kinds)
           result << av.has_options?(attribute,:options => attribute_options)
           kind_options.each do |k|
@@ -17,15 +17,28 @@ module Mirror
             message << av.message
           end
           message << av.message
-          assert_block (get_options(:message,*args) || message.first) do
+          assert_block (get_validation_on_options(:message,*args) || message.first) do
             !result.include?(false)
           end
         end
       end
       
+      def assert_has_many(*args)
+        aa=Mirror::Association.new get_model
+        names=get_association_options(:names,*args)
+        result= aa.has_many? *names
+        assert_block (get_association_options(:message,*args) || aa.message) do
+          result
+        end
+      end
+      
       protected
       
-      def get_options(type,*args)
+      def get_model
+        self.class.name.gsub(/Test/, "").constantize
+      end
+      
+      def get_validation_on_options(type,*args)
         validations_options=[:allow_nil,:allow_blank,:message,:on]
         case type
         when :kinds
@@ -56,6 +69,16 @@ module Mirror
         end
         result            
       end
+      
+      def get_association_options(type,*args)
+        case type
+        when :names
+          if args.last.is_a?(String) then args.delete(args.last) else args end
+        when :message
+          args.last if args.last.is_a?(String)
+        end
+      end
+      
   end  
 end
 
