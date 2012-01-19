@@ -3,6 +3,27 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   
+  # assert_attr_accessible
+  test "assert_attr_accessible" do
+    assert_attr_accessible :email, :email_confirmation, :password
+    assert_fail_assertion "my_pet is not accessible" do
+      assert_attr_accessible :email, :email_confirmation, :password, :my_pet
+    end
+  end
+  
+  test "assert_attr_accessible deve aceitar as rules" do
+    assert_attr_accessible :email, :email_confirmation, :password, :rating, :as => :admin
+    assert_fail_assertion "email, email_confirmation, password and rating are not accessible for blog_user" do
+      assert_attr_accessible :email, :email_confirmation, :password, :rating, :as => :blog_user
+    end
+  end
+  
+  test "assert_attr_accessible deve aceitar custm messages" do
+    assert_fail_assertion "no access to my_pet" do
+      assert_attr_accessible :email, :email_confirmation, :password, :my_pet, "no access to my_pet"
+    end
+  end
+  
   # assert_has_many
   test "assert_has_many" do
     assert_has_many :rules

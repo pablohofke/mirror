@@ -28,7 +28,7 @@ module Mirror
         end
       end
       
-      # Verifica se xiste o tipo de relação no model
+      # Verifica se existe o tipo de relação no model
       # assert_has_many :models, :models...[, message]
       def assert_has_many(*args)
         assert_association(:has_many,*args)
@@ -38,6 +38,18 @@ module Mirror
       # assert_belongs_to :models, :models...[, message]
       def assert_belongs_to(*args)
         assert_association(:belongs_to,*args)
+      end
+      
+      # Verifica se está definido attr_accessible para os attributes
+      # assert_attr_accessible :attribute, :attribute..[, "message"]
+      def assert_attr_accessible(*args)
+        assert_attr_protection :attr_accessible, *args
+      end
+      
+      # Verifica se está definido attr_protected para os attributes
+      # assert_attr_protected :attribute, :attribute..[, "message"]
+      def assert_attr_protected(*args)
+        assert_attr_protection :attr_protected, *args
       end
       
       protected
@@ -85,24 +97,39 @@ module Mirror
       # assert_association :belongs_to,*args
       def assert_association(type,*args)
         aa=Mirror::Association.new get_model
-        names=get_association_options(:names,*args)
+        names=get_options *args
         result= aa.send((type.to_s + "?").to_sym, *names)
-        assert_block (get_association_options(:message,*args) || aa.message) do
+        assert_block (get_message(*args) || aa.message) do
           result
         end
         
       end
       
-      # Obtem as óptions para assert_association
-      def get_association_options(type,*args)
-        case type
-        when :names
-          if args.last.is_a?(String) then args.delete(args.last) else args end
-        when :message
-          args.last if args.last.is_a?(String)
+      # Utilizado para verificar assert_attr_aaccessible e assert_attr_accessible
+      # assert_attr_protection :attr_accessible, *args
+      # assert_attr_protection :attr_protected, *args
+      def assert_attr_protection(type,*args)
+        amas=Mirror::MassAssignmentSecurity.new get_model
+        method= case type
+                when :attr_accessible : :accessible_attributes? 
+                when :attr_protected : :protected_attributes? 
+                end
+        result=amas.send(method, *(get_options *args))
+        assert_block (get_message(*args) || amas.message) do
+          result
         end
       end
       
+      # Obtem as custom mensagens dos args
+      def get_message(*args)
+        args.last if args.last.is_a?(String)
+      end
+      
+      # Obtem as options removendo a custom message
+      def get_options(*args)
+        if args.last.is_a?(String) then args.delete(args.last) else args end
+      end
+        
   end  
 end
 
