@@ -1,4 +1,8 @@
 class User < ActiveRecord::Base
+  attr_accessible :email, :email_confirmation, :password
+  attr_accessible :email, :email_confirmation, :password, :rating, :as => :admin
+  
+  
   has_many :rules
   
   validates :email,               :presence => true, :uniqueness => true,   :email => true

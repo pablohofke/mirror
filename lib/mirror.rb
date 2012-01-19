@@ -5,4 +5,6 @@ module Mirror
   autoload :Assertions, 'mirror/assertions'
   autoload :Helpers, 'mirror/helpers'
   autoload :Association, 'mirror/association'
+  autoload :MassAssignmentSecurity, 'mirror/mass_assignment_security'
+  autoload :Inflections, 'mirror/inflections'
 end
