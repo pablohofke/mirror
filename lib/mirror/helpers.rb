@@ -1,6 +1,8 @@
 module Mirror
   module Helpers
     
+    include Mirror::Inflections
+    
     # Gera uma sentença com uma array
     def sentence(array)
       array.to_sentence :last_word_connector => " and "
