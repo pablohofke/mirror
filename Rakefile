@@ -26,9 +26,11 @@ Bundler::GemHelper.install_tasks
 
 require 'rake/testtask'
 
+# Os testes incluem os models do Dummy aplication
 Rake::TestTask.new(:test) do |t|
   t.libs << 'lib'
   t.libs << 'test'
+  t.libs << 'test/dummy/test'
   t.pattern = 'test/**/*_test.rb'
   t.verbose = false
 end

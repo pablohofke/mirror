@@ -1,5 +1,5 @@
 # Simula o ambiente de teste do Model User
-require 'test_helper'
+require 'model_test_helper'
 
 class UserTest < ActiveSupport::TestCase
   
