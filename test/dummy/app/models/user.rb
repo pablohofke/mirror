@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   
   has_many :rules
   
-  validates :email,               :presence => true, :uniqueness => true,   :email => true
-  validates :email_confirmation,  :presence => true, :confirmation =>true,  :on => :create
+  validates :email,               :presence => true, :uniqueness => true, :confirmation =>true,  :email => true
+  validates :email_confirmation,  :presence => true, :on => :create
   validates :password,            :presence => true, :length => {:within => 6..30}
 end

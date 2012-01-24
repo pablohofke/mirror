@@ -8,7 +8,7 @@ class ValidatorTest < ActiveSupport::TestCase
   
   # kinds
   test "kinds deve retornar array com kind validators" do
-    assert_equal [:presence,:uniqueness,:email],@uv.kinds(:email)
+    assert_equal [:presence,:uniqueness,:confirmation,:email],@uv.kinds(:email)
     assert_equal [:presence,:confirmation],@uv.kinds(:email_confirmation)
     assert_equal [:presence,:length],@uv.kinds(:password)
   end

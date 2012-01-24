@@ -47,7 +47,7 @@ class UserTest < ActiveSupport::TestCase
   end
   
   test "assert_validation_on deve confirma a existência das options dos attributes" do
-    assert_validation_on(:email_confirmation, :presence, :confirmation, :on => :create)
+    assert_validation_on(:email_confirmation, :presence, :on => :create)
     assert_fail_assertion "email_confirmation does not have allow_nil option" do
       assert_validation_on(:email_confirmation, :presence, :confirmation, :on => :create, :allow_nil => true)
     end
