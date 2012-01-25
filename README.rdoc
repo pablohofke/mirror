@@ -6,7 +6,7 @@ Unit test your models as you write.
 
 In your Gemfile:
 
-  gem mirror
+  gem 'mirror', :git => 'git://github.com/pablohofke/mirror.git'
 
 Then run +bundle+ commmad.
 
