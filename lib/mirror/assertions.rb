@@ -76,12 +76,11 @@ module Mirror
           result=[]
           formated_options={}
           args.each do |a|
-            Rails.logger.debug "a: #{a}"
             if a.is_a?(Hash)
               a.each do |k,v|
                 unless validations_options.include?(k)
                   formated_options[:kind],formated_options[:options]=k,a[k]
-                  result << formated_options
+                  result << formated_options.dup
                 end
               end
             end
@@ -111,8 +110,8 @@ module Mirror
       def assert_attr_protection(type,*args)
         amas=Mirror::MassAssignmentSecurity.new get_model
         method= case type
-                when :attr_accessible : :accessible_attributes? 
-                when :attr_protected : :protected_attributes? 
+                when :attr_accessible then :accessible_attributes? 
+                when :attr_protected then :protected_attributes? 
                 end
         result=amas.send(method, *(get_options *args))
         assert_block (get_message(*args) || amas.message) do
