@@ -57,7 +57,6 @@ class UserTest < ActiveSupport::TestCase
   test "assert_validation_on deve verificar a existência de options para validators kinds" do
     assert_validation_on(:password, :presence, :length => {:within => 6..30})
     assert_fail_assertion "password does not have on option for presence" do
-      # debugger
       assert_validation_on(:password, :presence => {:on => :create}, :length => {:within => 6..30})
     end
   end

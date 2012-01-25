@@ -7,10 +7,9 @@ require "mirror/version"
 Gem::Specification.new do |s|
   s.name        = "mirror"
   s.version     = Mirror::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Mirror."
+  s.authors     = ["Pablo Höfke"]
+  s.email       = ["pablohofke@gmail.com"]
+  s.summary     = "Unit test your models as you write."
   s.description = "TODO: Description of Mirror."
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]

@@ -1,3 +1,77 @@
 = Mirror
 
-This project rocks and uses MIT-LICENSE.
+Unit test your models as you write.
+
+=Instalation
+
+In your Gemfile:
+
+  gem mirror
+
+Then run +bundle+ commmad.
+
+=Usage
+
+In your "test_helper" include Mirror to your TestCase
+
+  class ActiveSupport::TestCase
+    include Mirror
+  end
+
+==Validations assertions
+
+For the following model.
+
+  class User < ActiveRecord::Base
+    validates :email, :presence => true, :uniqueness => true, :confirmation =>true
+	validates :email_confirmation, :presence => true, :on => :create
+    validates :password, :presence => true, :length => {:within => 6..30}
+  end
+
+use.
+
+  class UserTest < ActiveSupport::TestCase
+    test "validations" do   
+      assert_validation_on :email, :presence, :uniqueness, :confirmation
+      assert_validation_on :email_confirmation, :presence, :on => :create
+      assert_validation_on :password, :presence, :length => {:within => 6..30}
+    end
+  end
+
+===Custom validators
+
+Mirror accepts *custom validators*, for example, if you write the following custom validator:
+
+  class ValidEmailValidator < ActiveModel::EachValidator  
+    def validate_each(record,attribute,value)  
+      unless value =~ ^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$
+        record.errors.add attribute, :email, options 
+      end  
+    end  
+  end
+
+Your assertion will look like this:
+
+  assert_validation_on :email, :valid_email...
+
+
+==Associations assertions
+
+
+  assert_has_many :rules
+  assert_belongs_to :user
+
+
+==MassAssignmentSecurity assertions
+
+  assert_attr_accessible :email, :password
+  assert_attr_protected :setor
+
+If you want to pass rules options.
+
+  assert_attr_accessible :email, :password, :rating, :as => :admin
+  
+
+==Custom Messages
+
+  assert_validation_on :email, :presence, :uniqueness, :confirmation, "your custom message"
