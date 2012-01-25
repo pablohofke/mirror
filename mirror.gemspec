@@ -10,7 +10,6 @@ Gem::Specification.new do |s|
   s.authors     = ["Pablo Höfke"]
   s.email       = ["pablohofke@gmail.com"]
   s.summary     = "Unit test your models as you write."
-  s.description = "TODO: Description of Mirror."
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
