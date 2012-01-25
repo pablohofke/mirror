@@ -24,7 +24,7 @@ For the following model.
 
   class User < ActiveRecord::Base
     validates :email, :presence => true, :uniqueness => true, :confirmation =>true
-	validates :email_confirmation, :presence => true, :on => :create
+    validates :email_confirmation, :presence => true, :on => :create
     validates :password, :presence => true, :length => {:within => 6..30}
   end
 
